@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>Learning</display-name>
+<welcome-file-list>
+		<welcome-file>view/default/index.jsp</welcome-file>
+	</welcome-file-list>
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/view/default/error404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/view/default/error500.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/view/default/exception.jsp</location>
+	</error-page>
+	<listener>
+		<description>服務器啓動關閉的整體緩存</description>
+		<listener-class>org.fastmvc.listener.LifeListener</listener-class>
+	</listener>
+	<listener>
+		<description>自定义服務器啓動關閉的整體緩存</description>
+		<listener-class>me.MyListener</listener-class>
+	</listener>
+	<!-- url过滤器 -->
+<!-- 	<filter>
+		<filter-name>urlFilter</filter-name>
+		<filter-class>org.fastmvc.filter.UrlFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>urlFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> -->
+	<!-- Url过滤结束 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.fastmvc.filter.EncodingFilter</filter-class>
+		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>jsonFilter</filter-name>
+		<filter-class>org.fastmvc.filter.JsonFilter</filter-class>
+		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>support</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>jsonFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- 系统认证Filter -->
+<!-- 	<filter>
+		<filter-name>authenticationFilter</filter-name>
+		<filter-class>me.app.listener.AuthenticationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>authenticationFilter</filter-name>
+		<url-pattern>*.py</url-pattern>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping> -->
+	<!-- 系统认证Filter 结束 -->
+
+
+	<!-- 路由分配过滤器 -->
+	<filter>
+		<filter-name>fastmvcFilter</filter-name>
+		<filter-class>org.fastmvc.filter.FastMVCFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>fastmvcFilter</filter-name>
+		<url-pattern>*.py</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+</web-app>
